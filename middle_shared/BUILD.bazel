@@ -1,0 +1,18 @@
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "middle_shared",
+    srcs = ["middle_shared.cpp"],
+    hdrs = ["middle_shared.h"],
+    includes = ["."],  # This helps dependent libraries find this library header(s).
+    deps = ["//base_shared"],
+    linkstatic = False,
+)
+
+cc_import(
+    name = "middle_imported",
+    shared_library = "libmiddle_shared.so",
+    hdrs = ["middle_shared.h"],
+    includes = [package_name()],  # This is workaround for cc_import bug: https://github.com/bazelbuild/bazel/issues/18866
+    deps = ["//base_shared:base_imported"],
+)

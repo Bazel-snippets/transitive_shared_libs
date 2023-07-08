@@ -1,0 +1,22 @@
+load("//:debug.bzl", "dump")
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "base_shared",
+    srcs = ["base_shared.cpp"],
+    hdrs = ["base_shared.h"],
+    includes = ["."],  # This helps dependent libraries find this library header(s).
+    linkstatic = False,
+)
+
+cc_import(
+    name = "base_imported",
+    shared_library = "libbase_shared.so",
+    hdrs = ["base_shared.h"],
+    includes = [package_name()],  # This is workaround for cc_import bug: https://github.com/bazelbuild/bazel/issues/18866
+)
+
+dump(
+    name = "dump",
+    src = "base_imported",
+)

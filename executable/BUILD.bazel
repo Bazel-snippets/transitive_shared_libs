@@ -1,0 +1,10 @@
+load("//cc:defs.bzl", "cc_binary_copy_deps")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_binary_copy_deps(
+    name = "executable",
+    srcs = ["hello_world.cpp"],
+    linkstatic = False,
+    deps = ["//middle_shared:middle_imported"],
+)
